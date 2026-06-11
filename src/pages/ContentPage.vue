@@ -3,7 +3,7 @@
     <!-- Layout: Hero (Default) -->
     <template v-if="!pageData.layout || pageData.layout === 'hero'">
       <section class="room-hero">
-        <img :src="pageData.heroImage" :alt="pageData.title" class="hero-img" />
+        <img :src="$asset(pageData.heroImage)" :alt="pageData.title" class="hero-img" />
         <div class="hero-overlay"></div>
       </section>
 
@@ -26,7 +26,7 @@
         <div class="container">
           <div class="sbs-layout">
             <div class="sbs-image">
-              <img :src="pageData.heroImage" :alt="pageData.title" />
+              <img :src="$asset(pageData.heroImage)" :alt="pageData.title" />
             </div>
             <div class="sbs-content fade-in-up">
               <h1 class="sbs-title">{{ pageData.title }}</h1>
@@ -41,7 +41,7 @@
     <!-- Layout: Text Only Top (Like Wellness) -->
     <template v-else-if="pageData.layout === 'text'">
       <section class="room-hero">
-        <img :src="pageData.heroImage" :alt="pageData.title" class="hero-img" />
+        <img :src="$asset(pageData.heroImage)" :alt="pageData.title" class="hero-img" />
         <div class="hero-overlay"></div>
       </section>
       <section class="section room-details">
@@ -80,7 +80,7 @@
     <section class="section room-gallery bg-light" v-if="pageData.gallery && pageData.gallery.length > 0">
       <div class="container">
         <div class="gallery-grid">
-          <img v-for="(img, index) in pageData.gallery" :key="index" :src="img" :alt="'Gallery image ' + (index + 1)" />
+          <img v-for="(img, index) in pageData.gallery" :key="index" :src="$asset(img)" :alt="'Gallery image ' + (index + 1)" />
         </div>
       </div>
     </section>

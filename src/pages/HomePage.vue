@@ -36,7 +36,7 @@
           <div class="accom-track" :style="{ transform: 'translateX(-' + accomIndex * 100 + '%)' }">
             <div v-for="accom in accommodations" :key="accom.name" class="accom-slide">
               <div class="accom-card">
-                <img :src="accom.image" :alt="accom.name" class="accom-img" />
+                <img :src="$asset(accom.image)" :alt="accom.name" class="accom-img" />
                 <div class="accom-info">
                   <h3>{{ accom.name }}</h3>
                   <p>{{ accom.desc }}</p>
@@ -74,7 +74,7 @@
             <div class="dining-carousel">
               <div class="dining-track" :style="{ transform: 'translateX(-' + diningIndex * 100 + '%)' }">
                 <div v-for="d in diningSlides" :key="d.name" class="dining-slide">
-                  <img :src="d.image" :alt="d.name" class="dining-img" />
+                  <img :src="$asset(d.image)" :alt="d.name" class="dining-img" />
                   <h4 class="dining-slide-title">{{ d.name }}</h4>
                 </div>
               </div>
@@ -141,7 +141,7 @@
         </div>
         <div class="packages-grid fade-in-up">
           <a href="#" v-for="pkg in packages" :key="pkg.name" class="package-card">
-            <img :src="pkg.image" :alt="pkg.name" class="package-img" />
+            <img :src="$asset(pkg.image)" :alt="pkg.name" class="package-img" />
             <div class="package-overlay">
               <h3>{{ pkg.name }}</h3>
               <p>{{ pkg.desc }}</p>

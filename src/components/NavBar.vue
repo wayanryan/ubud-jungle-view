@@ -66,7 +66,27 @@
     <transition name="slide-down">
       <div v-if="isMobileMenuOpen" class="mobile-menu" id="mobile-menu">
         <div v-for="item in menuItems" :key="item.label" class="mobile-item">
-          <a :href="item.href" class="mobile-link" @click="closeMobile">{{ item.label }}</a>
+          <div class="mobile-link-wrapper" @click="item.children ? toggleMobileSubmenu(item.label) : null">
+            <router-link v-if="item.to && !item.children" :to="item.to" class="mobile-link" @click="closeMobile">{{ item.label }}</router-link>
+            <a v-else-if="!item.to && !item.children" :href="item.href" class="mobile-link" @click="closeMobile">{{ item.label }}</a>
+            <span v-else class="mobile-link mobile-link-parent">
+              {{ item.label }}
+              <svg :class="['dropdown-icon-mobile', { 'rotated': expandedMobileItem === item.label }]" width="10" height="6" viewBox="0 0 10 6">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              </svg>
+            </span>
+          </div>
+          
+          <div v-if="item.children" v-show="expandedMobileItem === item.label" class="mobile-submenu">
+            <template v-for="child in item.children" :key="child.label || child">
+              <router-link v-if="child.to" :to="child.to" class="mobile-sublink" @click="closeMobile">
+                {{ child.label || child }}
+              </router-link>
+              <a v-else :href="'#' + (child.label || child).toLowerCase().replace(/\s+/g, '-')" class="mobile-sublink" @click="closeMobile">
+                {{ child.label || child }}
+              </a>
+            </template>
+          </div>
         </div>
         <div class="mobile-actions">
           <a href="#" class="nav-btn nav-btn-outline" @click="closeMobile">ROYAL RETREAT</a>
@@ -85,6 +105,7 @@ export default {
       isScrolled: false,
       forceSolid: false,
       isMobileMenuOpen: false,
+      expandedMobileItem: null,
       menuItems: [
         {
           label: 'SERVICES',
@@ -164,6 +185,13 @@ export default {
     },
     toggleMobileMenu() {
       this.isMobileMenuOpen = !this.isMobileMenuOpen
+    },
+    toggleMobileSubmenu(label) {
+      if (this.expandedMobileItem === label) {
+        this.expandedMobileItem = null;
+      } else {
+        this.expandedMobileItem = label;
+      }
     },
     closeMobile() {
       this.isMobileMenuOpen = false
@@ -428,6 +456,8 @@ export default {
   backdrop-filter: blur(12px);
   padding: 20px 24px 30px;
   border-top: 1px solid var(--color-border);
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
 }
 
 .mobile-link {
@@ -439,6 +469,45 @@ export default {
   text-transform: uppercase;
   color: var(--color-text);
   border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+}
+
+.mobile-link-parent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-icon-mobile {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-icon-mobile.rotated {
+  transform: rotate(180deg);
+}
+
+.mobile-submenu {
+  background: var(--color-bg-light);
+  padding: 5px 0;
+}
+
+.mobile-sublink {
+  display: block;
+  padding: 12px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  border-bottom: 1px dashed var(--color-border);
+  text-decoration: none;
+}
+
+.mobile-sublink:last-child {
+  border-bottom: none;
+}
+
+.mobile-sublink:hover, .mobile-sublink.router-link-active {
+  color: var(--color-primary);
 }
 
 .mobile-link:hover {

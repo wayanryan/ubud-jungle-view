@@ -5,7 +5,7 @@
       <div class="card-image-wrapper">
         <div class="card-image-container" ref="imageContainer">
           <img 
-            :src="image" 
+            :src="$asset(image)" 
             :alt="title + ' at Ubud Jungle View'" 
             class="card-image"
             loading="lazy"
